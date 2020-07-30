@@ -54,4 +54,30 @@ app.put('/projects/:id', (req, res) => {
    return  res.json(dbArray);
 })
 
+app.delete('/projects/:id', (req,res)=>{
+    const { id } = req.params;
+
+    // buscando o indice do projetoq preciso deletar.
+
+    const index = dbArray.findIndex(p=> id == p.id);
+
+    dbArray.splice(index,1);
+
+    res.send('Projeto deletado ')
+
+})  
+
+app.post('/projects/:id/tasks', (req, res) => {
+
+    const { id } = req.params
+
+    const {title} = req.body
+    
+    const projectID= dbArray.find(p=> id == p.id)
+  
+    projectID.tasks.push(title);
+
+    return res.json(dbArray);
+})
+
 app.listen(port, console.log(`server rodando na porta ${port}`));
